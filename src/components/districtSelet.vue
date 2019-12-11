@@ -11,7 +11,7 @@
   ></el-cascader>
 </template>
 <script>
-import { getProvincesList, getCitysList, getAreasList } from '../api/login'
+import { getProvincesList, getCitysList, getAreasList } from '../api/company'
 export default {
   props: {
     disabled: false,

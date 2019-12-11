@@ -255,7 +255,7 @@ export default {
     .manager-form-row {
       width: 100%;
       margin:  0 auto;
-      padding: 20px 6px;
+      padding: 20px 0;
       .company-title {
         padding-left: 20px;
       }

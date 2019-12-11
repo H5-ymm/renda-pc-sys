@@ -16,8 +16,8 @@ export const companyDel = data => $post('/company/company_del', data);
 
 export const companyLock = data => $post('/company/save_lock', data);
 
-export const getProvincesList = () => $cityPost('/company/getProvincesList')
+export const getProvincesList = () => $post('/Frequency/getProvincesList')
 
-export const getCitysList = data => $cityPost('/company/getCitysList',data)
+export const getCitysList = data => $post('/Frequency/getCitysList',data)
 
-export const getAreasList = data => $cityPost('/company/getAreasList',data)
+export const getAreasList = data => $post('/Frequency/getAreasList',data)
