@@ -8,30 +8,26 @@ import Load from './views/Load.vue'  //登录页
 import Register from './views/register.vue'  //登录页
 
 import Team from './views/Team.vue'  //登录页
-
+import Manager from './components/Manager.vue'
 import OrderTaking from './views/OrderTaking.vue'   //接单
-import OrderTakingDetail from './views/OrderTakingDetail.vue'  //接单详情
+import OrderTakingDetail from './views/OrderTakingDetail.vue'  // 接单详情
 
 import TeamSetting from './components/TeamSetting.vue'
+import TeamForum from './components/TeamForum.vue' // 团队论坛
 
 import Department from './components/Department.vue'
 import personalForm from './components/teamMessage/personalForm'  // 个人
 import companyForm from './components/teamMessage/companyForm'   // 企业
-import Setting from './components/Setting.vue'  //新增分类
-import Userlist from './components/Userlist.vue'  //全部用户
-import Aboutbook from './components/aboutbook.vue'  //本站信息
-import Adduser from './components/Adduser.vue'  //添加用户
-import Abouts from './components/abouts'  //关于本站
-import Case from './components/case.vue'  //添加项目
-import CaseAll from './components/caseAll.vue'  //全部项目
-import userimg from './components/userimg.vue'  //个人中心
-import commonts from './components/commonts.vue'  //评论
+import TeamList from './components/TeamList.vue'
 
+import baseSetting from './components/baseSetting.vue'
+import Setting from './components/Setting.vue'  //其他设置
+import Userlist from './components/Userlist.vue'  //全部用户
+import Adduser from './components/Adduser.vue'  //添加用户
+
+import DetailCard from './components/commentCard/DetailCard.vue'
 import companyInfo from './components/company/companyInfo.vue'  //草稿箱 容器
-   //某分类下的文章
 import Company from './components/Company.vue' //全部标签页
-import Casealllist from './components/casealls/casealllist.vue'  //全部项目
-import Casetxt from './components/casealls/casetxt.vue'   //修改项目
 
 Vue.use(Router)
 
@@ -49,11 +45,22 @@ let routers = new Router({
       path: '/team',
       name: 'Team',
       component: Team,
+      redirect: '/teamForum',
       children: [
-        { 
-          path: '/commonts',
-          name: 'commonts',
-          component: commonts,
+        {
+          path: '/teamForum',
+          name: 'TeamForum',
+          component: TeamForum,
+
+          meta: {
+            requiresAuth: 2
+          }
+        },
+        {
+          path: '/detailCard',
+          name: 'DetailCard',
+          component: DetailCard,
+          title: '论坛详情',
           meta: {
             requiresAuth: 2
           }
@@ -98,7 +105,7 @@ let routers = new Router({
             requiresAuth: 2
           }
         },
-        { //新增分类
+        { //部门
           path: '/department',
           name: 'Department',
           component: Department,
@@ -106,7 +113,15 @@ let routers = new Router({
             requiresAuth: 2
           }
         },
-        { //草稿箱
+        { // 基本设置
+          path: '/baseSetting',
+          name: 'baseSetting',
+          component: baseSetting,
+          meta: {
+            requiresAuth: 2
+          }
+        },
+        { // 其他设置
           path: '/setting',
           component: Setting,
           meta: {
@@ -114,8 +129,17 @@ let routers = new Router({
           }
         },
         {
-          path: '/company',  //全部标签页
+          path: '/company',  // 企业账户
           component: Company,
+          meta: {
+            requiresAuth: 2
+          },
+          children: [
+          ]
+        },
+        {
+          path: '/teamList',  // 团队账户
+          component: TeamList,
           meta: {
             requiresAuth: 2
           },
@@ -131,68 +155,11 @@ let routers = new Router({
           }
         },
         {
-          path: 'userlist',  //用户列表
-          name: 'Userlist',
-          component: Userlist,
+          path: '/manager',  //用户列表
+          name: Manager,
+          component: Manager,
           meta: {
             requiresAuth: 1
-          }
-        },
-        {
-          path: 'aboutbook',  //本站信息
-          name: 'Aboutbook',
-          component: Aboutbook,
-          meta: {
-            requiresAuth: 1
-          }
-        },
-        {
-          path: 'abouts',   //关于本站
-          name: 'Abouts',
-          component: Abouts,
-          meta: {
-            requiresAuth: 2
-          }
-        },
-        {
-          path: 'case',   //添加项目
-          name: 'Case',
-          component: Case,
-          meta: {
-            requiresAuth: 2
-          }
-        },
-        {
-          path: 'caseall',  //所有项目
-          component: CaseAll,
-          meta: {
-            requiresAuth: 2
-          },
-          children: [
-            {
-              path: '', //所有项目
-              name: 'Casealllist',
-              component: Casealllist,
-              meta: {
-                requiresAuth: 2
-              }
-            },
-            {
-              path: 'casetxt/:userid',  //修改项目
-              name: 'casetxt',
-              component: Casetxt,
-              meta: {
-                requiresAuth: 2
-              }
-            }
-          ]
-        },
-        {
-          path: 'userimg',
-          name: 'userimg',
-          component: userimg,
-          meta: {
-            requiresAuth: 2
           }
         }
       ]
@@ -218,7 +185,7 @@ let routers = new Router({
       component: OrderTakingDetail
     },
     {
-      path: '/load',
+      path: '/Load',
       name: 'Load',
       component: Load
     },

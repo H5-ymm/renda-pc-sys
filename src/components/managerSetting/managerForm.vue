@@ -1,37 +1,45 @@
 <template>
-  <el-dialog width="500px" :visible="dialogTableVisible" class="manager-dialog" title="添加管理员">
+  <el-dialog
+    width="500px"
+    :visible="dialogTableVisible"
+    :before-close="handleClose"
+    class="manager-dialog"
+    title="添加管理员"
+  >
     <div class="manager-row">
-        <el-form
-          :model="formMember"
-          :rules="rules"
-          ref="formMember"
-          label-position="right"
-          label-width="90px"
-        >
-          <el-form-item label="账号" required prop="name">
-            <el-input v-model="formMember.name" class="width240" placeholder="请输入账号"></el-input>
-          </el-form-item>
-          <el-form-item label="密码" required prop="password">
-            <el-input v-model="formMember.password" class="width240" placeholder="请输入密码"></el-input>
-          </el-form-item>
-          <el-form-item label="真实姓名">
-            <el-input v-model="formMember.username" class="width240" placeholder="请输入真实姓名"></el-input>
-          </el-form-item>
-          <el-form-item label="权限">
-            <el-select placeholder="请选择" class="width240" v-model="formMember.role_id">
-              <el-option
-                label="管理员"
-                value="15"
-              >管理员</el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="登录权限">
-            <el-radio-group v-model="status" class="width240">
-              <el-radio :label="1">启用</el-radio>
-              <el-radio :label="2">禁用</el-radio>
-            </el-radio-group>
-          </el-form-item>
-        </el-form>
+      <el-form
+        :model="formMember"
+        :rules="rules"
+        ref="formMember"
+        label-position="right"
+        label-width="90px"
+      >
+        <el-form-item label="账号" required prop="name">
+          <el-input v-model="formMember.name" class="width240" placeholder="请输入账号"></el-input>
+        </el-form-item>
+        <el-form-item label="密码" required prop="password">
+          <el-input v-model="formMember.password" class="width240" placeholder="请输入密码"></el-input>
+        </el-form-item>
+        <el-form-item label="真实姓名">
+          <el-input v-model="formMember.username" class="width240" placeholder="请输入真实姓名"></el-input>
+        </el-form-item>
+        <el-form-item label="权限">
+          <el-select placeholder="请选择" class="width240" v-model="formMember.role_id">
+            <el-option
+              :label="item.description"
+              :value="item.id"
+              v-for="(item,index) in roleList"
+              :key="index"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="登录权限">
+          <el-radio-group v-model="status" class="width240">
+            <el-radio :label="1">启用</el-radio>
+            <el-radio :label="2">禁用</el-radio>
+          </el-radio-group>
+        </el-form-item>
+      </el-form>
     </div>
     <div slot="footer">
       <el-button @click="handleClose">关闭</el-button>
@@ -40,8 +48,9 @@
   </el-dialog>
 </template>
 <script>
+import { getRoleList } from '../../api/role'
 export default {
-  props: ['dialogTableVisible','formMember'],
+  props: ['dialogTableVisible', 'formMember'],
   data () {
     return {
       rules: {
@@ -53,12 +62,19 @@ export default {
         ]
       },
       status: 1,
+      roleList: []
     }
   },
   created () {
-    console.log(this.$store.state)
+    this.getRole()
   },
   methods: {
+    getRole () {
+      getRoleList().then(res => {
+        console.log(res)
+        this.roleList = res.data.data
+      })
+    },
     getList (filed) {
       getConstant({ filed }).then(res => {
         this.edu_type = res.data.edu_type

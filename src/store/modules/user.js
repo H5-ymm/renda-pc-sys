@@ -25,16 +25,16 @@ const mutations = {
 
 const actions = {
   // user login
-  login({ commit }, userInfo) {
+  login ({ commit }, userInfo) {
     const { username, password } = userInfo
     console.log(username)
     return new Promise((resolve, reject) => {
       goLogin({ name: username.trim(), password: password }).then(response => {
-        console.log(response)
         const { data } = response
         commit('SET_TOKEN', data.token)
-        commit('SET_USERINFO',data.userInfo)
-        localStorage.setItem('userInfo', data.userInfo)
+        commit('SET_USERINFO', JSON.stringify(data.userInfo))
+        localStorage.setItem('uid', data.userInfo.id)
+        localStorage.setItem('userInfo', JSON.stringify(data.userInfo))
         localStorage.setItem('token', data.token)
         resolve()
       }).catch(error => {
@@ -79,7 +79,7 @@ const actions = {
   // },
 
   // remove token
-  resetToken({ commit }) {
+  resetToken ({ commit }) {
     return new Promise(resolve => {
       commit('SET_TOKEN', '')
       removeToken()

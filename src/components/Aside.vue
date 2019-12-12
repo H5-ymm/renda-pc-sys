@@ -33,43 +33,6 @@
               :route="val.url"
             >{{val.title}}</el-menu-item>
           </el-submenu>
-          <!-- <el-submenu index="4" class="acts">
-            <template slot="title">
-              <i class="el-icon-edit"></i>
-              <span>评论管理</span>
-            </template>
-            <el-menu-item index="/addcls">文章评论</el-menu-item>
-          </el-submenu>
-          <el-submenu index="5" class="acts">
-            <template slot="title">
-              <i class="el-icon-menu"></i>
-              <span>项目管理</span>
-            </template>
-            <el-menu-item index="/caseall">全部项目</el-menu-item>
-            <el-menu-item index="/case">新增项目</el-menu-item>
-          </el-submenu>
-          <el-submenu index="6">
-            <template slot="title">
-              <i class="el-icon-setting"></i>
-              <span>设置</span>
-            </template>
-            <el-submenu index="6-1" class="acts">
-              <template slot="title">个人中心</template>
-              <el-menu-item index="/userimg">个人资料</el-menu-item>
-            </el-submenu>
-            <el-submenu index="6-2" class="acts">
-              <template slot="title">管理控制</template>
-              <el-menu-item index="/userlist">全部管理员</el-menu-item>
-              <el-menu-item index="/aboutbook">本站信息</el-menu-item>
-            </el-submenu>
-          </el-submenu>
-          <el-submenu index="7" class="acts">
-            <template slot="title">
-              <i class="el-icon-info"></i>
-              <span>关于本站</span>
-            </template>
-            <el-menu-item index="/abouts">关于本站</el-menu-item>
-          </el-submenu>-->
         </el-menu>
       </el-col>
     </el-row>
@@ -77,6 +40,7 @@
 </template>
 
 <script>
+import { getRole } from '../api/user'
 export default {
   name: 'Aside',
   props: {
@@ -87,46 +51,49 @@ export default {
       menus: [
         {
           title: '团队论坛',
-          icon: 'el-icon-collection',
+          icon: 'el-icon-notebook-1',
           submenu: [
             {
               title: '论坛列表',
-              url: '/commonts'
+              url: '/teamForum'
             }
           ]
         },
-        {
-          title: '团队管理',
-          icon: 'el-icon-collection-tag',
-          submenu: [
-            {
-              title: '成员管理',
-              url: '/userlist'
-            }
-          ]
-        },
-        {
-          title: '团队设置',
-          icon: 'el-icon-collection-tag',
-          submenu: [
-            {
-              title: '团队信息',
-              url: '/teamSetting'
-            },
-            {
-              title: '部门管理',
-              url: '/department'
-            }
-          ]
-        },
+        // {
+        //   title: '团队管理',
+        //   icon: 'el-icon-user',
+        //   submenu: [
+        //     {
+        //       title: '成员管理',
+        //       url: '/userlist'
+        //     }
+        //   ]
+        // },
+        // {
+        //   title: '团队设置',
+        //   icon: 'el-icon-setting',
+        //   submenu: [
+        //     {
+        //       title: '团队信息',
+        //       url: '/teamSetting'
+        //     },
+        //     {
+        //       title: '部门管理',
+        //       url: '/department'
+        //     }
+        //   ]
+        // },
         {
           title: '网络设置',
           icon: 'el-icon-collection-tag',
-          submenu: [
-            {
-              title: '基本设置',
-              url: '/setting'
-            }
+          submenu: [{
+            title: '基本设置',
+            url: '/baseSetting'
+          },
+          {
+            title: '其他设置',
+            url: '/setting'
+          }
           ]
         },
         {
@@ -144,14 +111,25 @@ export default {
           icon: 'el-icon-collection-tag',
           submenu: [
             {
-              title: '企业账号',
+              title: '企业账户',
               url: '/company'
+            },
+            {
+              title: '团队账户',
+              url: '/teamList'
             }
           ]
         }
       ],
-      title: ''
+      title: '',
+      userType: 1,
+      uid: localStorage.getItem('uid')
     }
+  },
+  created () {
+    getRole({ uid: this.uid }).then(res => {
+      console.log(res)
+    })
   },
   methods: {
     handleOpen (key, keyPath) {
@@ -166,7 +144,6 @@ export default {
       this.$router.push('/load')
     },
     selectMenus (key, keyPath) {
-      console.log(key, keyPath)
       this.title = key
       let arr = [key]
       sessionStorage.setItem('menus', JSON.stringify(arr))

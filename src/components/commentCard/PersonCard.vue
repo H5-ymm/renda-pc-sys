@@ -17,7 +17,7 @@
           <p>{{item.title}}</p>
           <p>
             发布者：
-            <span class="nick-name">{{item.username}}</span>
+            <span class="nick-name">{{item.user_name}}</span>
           </p>
           <p class="time">更新时间：{{item.addtime}}</p>
         </div>

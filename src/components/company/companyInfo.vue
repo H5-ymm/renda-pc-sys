@@ -9,119 +9,115 @@
         label-width="100px"
         class="teamMessage-form"
       >
-      <p class="company-title">账户信息</p>
+        <userCard></userCard>
+        <p class="company-title">基本信息</p>
         <section class="section-box">
-         <el-form-item label="团队名称" prop="team_name">
-          <el-input v-model="companyForm.team_name" class="width408" placeholder="请输入团队名称"></el-input>
-        </el-form-item>
-         <el-form-item label="密码">
-            <el-button type="primary">重置密码</el-button>
-            <span class="password-tip"> <i class="el-icon-warning-outline"/>  密码重置:12345，不可逆转，谨慎操作</span>
-        </el-form-item>
-       </section>
-      <p class="company-title">基本信息</p>
-      <section class="section-box">
-          <el-form-item label="团队名称" prop="team_name">
-          <el-input v-model="companyForm.team_name" class="width408" placeholder="请输入团队名称"></el-input>
-        </el-form-item>
-        <el-form-item label="团队logo" required>
-          <el-upload
-            class="avatar-uploader"
-            action="customize"
-            ref="upload"
-            :show-file-list="false"
-            :http-request="upload"
-          >
-            <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-            <i v-else class="el-icon-circle-plus avatar-uploader-icon"></i>
-            <p>上传</p>
-          </el-upload>
-        </el-form-item>
-        <el-form-item label="营业执照" required>
-          <el-upload
-            class="uploader-card avatar-uploader"
-            action="customize"
-            :show-file-list="false"
-            :http-request="uploadLicense"
-          >
-            <img v-if="license_img" :src="license_img" class="avatar" />
-            <i v-else class="el-icon-circle-plus avatar-uploader-icon"></i>
-            <p>上传</p>
-          </el-upload>
-        </el-form-item>
-        <el-form-item label="从事行业" prop="industry" required>
-          <el-select v-model="companyForm.industry" class="width408" placeholder="请选择企业从事行业">
-            <el-option :label="item" :value="key" v-for="(item,key) in jobList" :key="key"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="企业性质" prop="enterprise" required>
-          <el-select v-model="companyForm.enterprise" class="width408" placeholder="请选择企业性质">
-            <el-option
-              :label="item"
-              :value="index+1"
-              v-for="(item,index) in comTypeList"
-              :key="index"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="企业规模" prop="scale" required>
-          <el-select v-model="companyForm.scale" class="width408" placeholder="请选择企业规模">
-            <el-option
-              :label="item"
-              :value="index+1"
-              v-for="(item,index) in comScaleList"
-              :key="index"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="公司地址" required>
-          <div class="width408">
-            <districtSelet @change="change"></districtSelet>
-          </div>
-          <el-input
-            v-model="companyForm.address"
-            class="width408 team-address"
-            placeholder="请填写详细地址"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="联系人" required>
-          <el-input v-model="companyForm.user_name" class="width408" placeholder="请输入联系人姓名"></el-input>
-        </el-form-item>
-        <el-form-item label="公司座机" prop="desc">
-          <div class="x-flex-start-justify width408">
-            <el-input type="text" class="width60" v-model="landlineStart" placeholder="区号"></el-input>
-            <span class="landline"></span>
-            <el-input type="text" class="width150" v-model="landlineEnd" placeholder="座机号码"></el-input>
-            <span class="landline-tip">如：021-66041618</span>
-          </div>
-        </el-form-item>
-        <el-form-item label="企业简介" prop="introduction" required>
-          <el-input
-            type="textarea"
-            class="width408"
-            :autosize="{minRows: 5}"
-            v-model="companyForm.introduction"
-            placeholder="请输入企业简介"
-          ></el-input>
-        </el-form-item>
-        <el-form-item class="teamMessage-btn">
-          <el-button type="primary" @click="submitForm('companyForm')">保存</el-button>
-          <el-button @click="resetForm('companyForm')">取消</el-button>
-        </el-form-item>
-       </section>
+          <el-form-item label="企业名称" prop="com_name">
+            <el-input v-model="companyForm.com_name" class="width408" placeholder="请输入团队名称"></el-input>
+          </el-form-item>
+          <el-form-item label="企业logo" required>
+            <el-upload
+              class="avatar-uploader"
+              action="customize"
+              ref="upload"
+              :show-file-list="false"
+              :http-request="upload"
+            >
+              <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+              <i v-else class="el-icon-circle-plus avatar-uploader-icon"></i>
+              <p>上传</p>
+            </el-upload>
+          </el-form-item>
+          <el-form-item label="营业执照" required>
+            <el-upload
+              class="uploader-card avatar-uploader"
+              action="customize"
+              :show-file-list="false"
+              :http-request="uploadLicense"
+            >
+              <img v-if="license_img" :src="license_img" class="avatar" />
+              <i v-else class="el-icon-circle-plus avatar-uploader-icon"></i>
+              <p>上传</p>
+            </el-upload>
+          </el-form-item>
+          <el-form-item label="从事行业" prop="industry" required>
+            <el-select v-model="companyForm.industry" class="width408" placeholder="请选择企业从事行业">
+              <el-option :label="item" :value="key" v-for="(item,key) in jobList" :key="key"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="企业性质" prop="enterprise" required>
+            <el-select v-model="companyForm.enterprise" class="width408" placeholder="请选择企业性质">
+              <el-option
+                :label="item"
+                :value="index+1"
+                v-for="(item,index) in comTypeList"
+                :key="index"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="企业规模" prop="scale" required>
+            <el-select v-model="companyForm.scale" class="width408" placeholder="请选择企业规模">
+              <el-option
+                :label="item"
+                :value="index+1"
+                v-for="(item,index) in comScaleList"
+                :key="index"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="公司地址" required>
+            <div class="width408">
+              <districtSelet @change="change"></districtSelet>
+            </div>
+            <el-input
+              v-model="companyForm.address"
+              class="width408 team-address"
+              placeholder="请填写详细地址"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="联系人" required>
+            <el-input v-model="companyForm.link_man" class="width408" placeholder="请输入联系人姓名"></el-input>
+          </el-form-item>
+          <el-form-item label="联系电话" required>
+            <el-input v-model="companyForm.link_phone" class="width408" placeholder="请输入联系人姓名"></el-input>
+          </el-form-item>
+          <el-form-item label="公司座机" prop="desc">
+            <div class="x-flex-start-justify width408">
+              <el-input type="text" class="width60" v-model="landlineStart" placeholder="区号"></el-input>
+              <span class="landline"></span>
+              <el-input type="text" class="width150" v-model="landlineEnd" placeholder="座机号码"></el-input>
+              <span class="landline-tip">如：021-66041618</span>
+            </div>
+          </el-form-item>
+          <el-form-item label="企业简介" prop="introduction" required>
+            <el-input
+              type="textarea"
+              class="width408"
+              :autosize="{minRows: 5}"
+              v-model="companyForm.introduction"
+              placeholder="请输入企业简介"
+            ></el-input>
+          </el-form-item>
+          <el-form-item class="teamMessage-btn">
+            <el-button type="primary" @click="submitForm('companyForm')">保存</el-button>
+            <el-button @click="resetForm('companyForm')">取消</el-button>
+          </el-form-item>
+        </section>
       </el-form>
     </div>
   </div>
 </template>
 
 <script>
-// import { getConstant } from '../../api/dictionary'
+import { getConstant } from '../../api/dictionary'
 import districtSelet from '../districtSelet'
-// import { updateTeamInfo } from '../../api/team'
-// import { uploadFile } from '../../api/upload'
+import userCard from '../userCard'
+import { resetPassword, getCompanyInfo } from '../../api/company'
+import { uploadFile } from '../../api/upload'
 export default {
   components: {
-    districtSelet
+    districtSelet,
+    userCard
   },
   data () {
     return {
@@ -143,13 +139,15 @@ export default {
       comScaleList: [],
       comTypeList: [],
       jobList: {},
+      companyTeamId: ''
     };
   },
   created () {
     console.log(this.$route.query)
-    // this.companyForm.id = this.$route.query.teamId
-    // let params = 'com_type,com_scale,job_array'
-    // this.getList(params)
+    this.companyTeamId = this.$route.query.uid
+    let params = 'com_type,com_scale,job_array'
+    this.getList(params)
+    this.getInfo(this.companyTeamId)
   },
   methods: {
     getList (filed) {
@@ -158,6 +156,31 @@ export default {
         this.comScaleList = com_scale
         this.comTypeList = com_type
         this.jobList = job_array
+      })
+    },
+    getInfo (uid) {
+      getCompanyInfo({ uid }).then(res => {
+        this.companyForm = res.data
+        let link = res.data.link_tel.split('-')
+        if (link.length) {
+          this.landlineStart = link[0]
+          this.landlineEnd = link[1]
+        }
+      })
+    },
+    handlePassword () {
+      this.$alert('密码将设置为123456<br>确定重置吗?', '密码重置', {
+        dangerouslyUseHTMLString: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        let uid = this.companyForm.uid
+        resetPassword({ uid }).then(res => {
+          this.$message.success('重置成功')
+        })
+      }).catch(() => {
+        console.log(2)
       })
     },
     upload (params) {
@@ -223,6 +246,7 @@ export default {
 <style lang="scss">
 .teamMessage {
   padding-bottom: 80px;
+  height: 100%;
   overflow: auto;
     .title {
       width: 100%;
@@ -247,7 +271,7 @@ export default {
       .landline-tip {
         position: absolute;
         top: 0;
-        right: 36%;
+        right: 0;
         color: #999999;
         font-size: 14px;
       }
@@ -265,6 +289,7 @@ export default {
         margin-bottom: 70px;
         .width408 {
           width: 408px;
+          position: relative;
         }
         .width60 {
           width: 60px;

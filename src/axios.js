@@ -5,6 +5,7 @@ const $axios = axios.create({
   timeout: 4000
 });
 const baseURL = 'http://tiantianxsg.com:39888/admin.php'
+const baseURL1 = 'http://tiantianxsg.com:39888/index.php'
 //请求拦截
 $axios.interceptors.request.use(
   function (config) {
@@ -13,8 +14,8 @@ $axios.interceptors.request.use(
     // 此处应根据具体业务写token
     const token = localStorage.getItem('token');
     if (localStorage.getItem('token')) {
-    config.headers['HTTP_TOKEN'] = token
-    // config.headers['HTTP-USERID'] = 6
+      config.headers['HTTP_TOKEN'] = token
+      // config.headers['HTTP-USERID'] = 6
     }
     config.headers = { 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8' }
     return config;
@@ -100,7 +101,18 @@ export function upload (params) {
   let file = new FormData()
   file.append('image', params)
   return new Promise((resolve, reject) => {
-    $axios.post(`${baseURL}/uploadimg/moreupload`, file)
+    $axios.post(`${baseURL1}/uploadimg/moreupload`, file)
+      .then(res => {
+        resolve(res.data)
+      })
+      .catch(err => {
+        reject(err.data)
+      })
+  });
+}
+export function getData (url, params) {
+  return new Promise((resolve, reject) => {
+    $axios.post(`${baseURL1}${url}${'?' + QS.stringify(params)}`)
       .then(res => {
         resolve(res.data)
       })

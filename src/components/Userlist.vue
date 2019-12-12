@@ -42,7 +42,6 @@ import { getTeamList, loginOutTeam, addTeamUser, updateTeamUser } from '../api/t
 import memberInfoVue from './membership/memberInfo.vue';
 export default {
   components: {
-    Breadcrumb,
     memberCard,
     memberQuery,
     memberTable,
@@ -51,7 +50,6 @@ export default {
   },
   data () {
     return {
-      breadcrumb: ['设置', '管理控制', '全部管理员'],
       dialogTableVisible: false,
       visible: false,
       tableData: [],

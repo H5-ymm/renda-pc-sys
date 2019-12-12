@@ -1,3 +1,3 @@
-import { $post } from '../axios'
+import { getData } from '../axios'
 
-export const getConstant = data => $post('/index/getConstant', data)
+export const getConstant = data => getData('/index/getConstant', data)

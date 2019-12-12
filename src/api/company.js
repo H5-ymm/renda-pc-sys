@@ -1,4 +1,4 @@
-import { $post, $cityPost } from '../axios'
+import { $post } from '../axios'
 
 export const getCompanyList = data => $post('/company/companyList', data);
 
@@ -18,6 +18,6 @@ export const companyLock = data => $post('/company/save_lock', data);
 
 export const getProvincesList = () => $post('/Frequency/getProvincesList')
 
-export const getCitysList = data => $post('/Frequency/getCitysList',data)
+export const getCitysList = data => $post('/Frequency/getCitysList', data)
 
-export const getAreasList = data => $post('/Frequency/getAreasList',data)
+export const getAreasList = data => $post('/Frequency/getAreasList', data)

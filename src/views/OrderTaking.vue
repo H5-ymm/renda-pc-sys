@@ -1,6 +1,6 @@
 <template>
   <el-container class="orderTaking" id="header">
-    <el-header class="header x-flex-around home" height="50px" >
+    <el-header class="header x-flex-around home" height="50px">
       <headerView></headerView>
     </el-header>
     <el-main class="orderTaking-main-content">
@@ -70,7 +70,7 @@
                   :value="item.value"
                 ></el-option>
               </el-select>
-               <el-select v-model="params.is_fund" placeholder="缴纳公积金">
+              <el-select v-model="params.is_fund" placeholder="缴纳公积金">
                 <el-option
                   v-for="(item,index) in paymentTaxType"
                   :key="index"
@@ -190,13 +190,13 @@
 import homeAside from '@/components/Aside' //侧边栏
 import ModalCity from '@/components/ModalCity'
 import LoginBox from '@/components/LoginBox'
-import HeaderView  from '@/components/HeaderView'
-import FooterView  from '@/components/FooterView'
-import AsideBox  from '@/components/AsideBox'
+import HeaderView from '@/components/HeaderView'
+import FooterView from '@/components/FooterView'
+import AsideBox from '@/components/AsideBox'
 
 import { getList } from '../api/orderTarking'
 import { getProvincesList, getCitysList, getAreasList } from '../api/login'
-import { cityList, moneyTypeList,rewardList,requirePersonList, paymentTaxType} from '../base/base'
+import { cityList, moneyTypeList, rewardList, requirePersonList, paymentTaxType } from '../base/base'
 export default {
   name: 'OrderTaking',
   components: {
@@ -209,7 +209,7 @@ export default {
   },
   data () {
     return {
-      isShow:false,
+      isShow: false,
       dialogVisible: false,
       total: 0,
       activeIndex: 1,
@@ -253,14 +253,14 @@ export default {
   computed: {
 
   },
-  mounted(){
+  mounted () {
     window.addEventListener('scroll', this.windowScroll)
   },
   methods: {
     windowScroll () {
-      let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop 
+      let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
       console.log(scrollTop - document.documentElement.clientHeight)
-      if (scrollTop - document.documentElement.clientHeight + 100 >=0) {
+      if (scrollTop - document.documentElement.clientHeight + 100 >= 0) {
         this.isShow = true
       }
       else {
@@ -407,6 +407,7 @@ export default {
    display: inline-block;
    padding: 15px 10px;
    font-weight:normal;
+   margin: 0 20px;
 }
 .nav .nav-item.active {
   color:#1890FF;
