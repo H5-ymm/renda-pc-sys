@@ -106,10 +106,10 @@
 // 部门经理只能编辑状态
 // 成员只能查看
 // 总经理可以编辑部门 职称 状态
-import { seeTeamUserInfo, departmentRoleList } from '../../api/team'
+import { seeTeamUserInfo, departmentRoleList, getUserDetail} from '../../api/team'
 import { getConstant } from '../../api/dictionary'
 export default {
-  props: ['dialogTableVisible', 'memberInfo', 'memberType', 'userId'],
+  props: ['dialogTableVisible', 'uid'],
   data () {
     return {
       formMember: {},
@@ -119,22 +119,23 @@ export default {
     }
   },
   created () {
-    this.getJobList()
+    // this.getJobList()
+    console.log(this.uid)
   },
   watch: {
-    userId (val) {
+    uid (val) {
       if (val) {
-        this.getInfo(val)
+        console.log(val)
+        // this.getInfo(val)
       }
     }
   },
   methods: {
     getInfo (id) {
       let params = {
-        userId: id,
-        uid: localStorage.getItem('uid')
+        uid: id
       }
-      seeTeamUserInfo(params).then(res => {
+      getUserDetail(params).then(res => {
         console.log(res)
         this.formMember = res.data
         this.depId = this.getJob(this.depList, this.formMember.grade_id)
@@ -175,7 +176,7 @@ export default {
       this.jobList = this.getArr(this.depList, val)
     },
     handleClose () {
-      this.$parent.dialogTableVisible = false
+      this.$parent.dialogInfoVisible = false
     },
     submitMember () {
       let params = {
