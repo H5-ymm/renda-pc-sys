@@ -80,7 +80,7 @@
       <el-table-column label="团队名称" prop="team_name" align="center" width="200"></el-table-column>
       <el-table-column label="登录/注册" prop="login_date" align="center" width="150">
         <template slot-scope="props">
-          <span>{{props.row.login_date ? $moment(props.row.login_date).format('YYYY-MM-DD HH:mm') : $moment(props.row.reg_date).format('YYYY-MM-DD HH:mm')}}</span>
+          <span>{{$moment(props.row.login_date).format('YYYY-MM-DD HH:mm')}}</span>
         </template>
       </el-table-column>
       <el-table-column label="手机号" prop="mobile" align="center" width="150"></el-table-column>
@@ -91,7 +91,7 @@
       </el-table-column>
       <el-table-column
         label="职称"
-        prop="grade_name"
+        prop="member_count"
         v-if="tableType=='personal'"
         align="center"
         width="150"
@@ -112,25 +112,20 @@
       ></el-table-column>
       <el-table-column label="状态" align="center" width="100">
         <template slot-scope="props">
-          <span
-            v-if="tableType=='all'"
-          >{{ props.row.status === 1 ? '待审核': props.row.status === 2 ? '已通过': '未通过'}}</span>
-          <span v-else>{{ props.row.status === 1 ? '正常': props.row.status === 2 ? '已锁定': '已删除'}}</span>
+          <span>{{ props.row.status === 1 ? '待审核': props.row.status === 2 ? '已通过': '未通过'}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" min-width="240px">
+      <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <div class="table-button-box">
-            <div class="x-flex-start">
-              <el-button
-                @click="handleTeam('check',scope.row)"
-                type="text"
-                size="small"
-                v-if="tableType=='all'"
-              >审核</el-button>
-              <el-button @click="handleEdit(scope.row)" type="text" size="small">查看</el-button>
-              <el-button @click="handleLog(scope.row)" type="text" size="small">日志</el-button>
-            </div>
+            <el-button
+              @click="handleTeam('check',scope.row)"
+              type="text"
+              size="small"
+              v-if="tableType=='all'"
+            >审核</el-button>
+            <el-button @click="handleEdit(scope.row)" type="text" size="small">查看</el-button>
+            <el-button @click="handleLog(scope.row)" type="text" size="small">日志</el-button>
             <div>
               <el-button @click="handleDel(scope.row)" type="text" size="small">删除</el-button>
               <el-button @click="handleTeam('lock',scope.row)" type="text" size="small">锁定</el-button>
@@ -235,21 +230,11 @@ export default {
   },
   created () {
     // 初始化查询标签数据
-    // if (this.tableType == 'all') {
-    //   this.getList(this.formParams)
-    // }
-    // else {
-    //   this.getUserList(this.formParams)
-    // }
-  },
-  watch: {
-    tableType (val) {
-      if (val == 'all') {
-        this.getList(this.formParams)
-      }
-      else {
-        this.getUserList(this.formParams)
-      }
+    if (this.tableType == 'all') {
+      this.getList(this.formParams)
+    }
+    else {
+      this.getUserList(this.formParams)
     }
   },
   methods: {

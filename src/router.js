@@ -29,6 +29,7 @@ import DetailCard from './components/commentCard/DetailCard.vue'
 import companyInfo from './components/company/companyInfo.vue'  //草稿箱 容器
 import Company from './components/Company.vue' //全部标签页
 
+
 Vue.use(Router)
 
 let routers = new Router({

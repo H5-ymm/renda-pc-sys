@@ -203,24 +203,4 @@ export default {
   height:46px;
   line-height: 46px;
 }
-.names-A{
-  width: 100%;
-  height: 35px;
-  text-align: center;
-  padding-right: 10px;
-  box-sizing: border-box;
-  font-size: 16px;
-  line-height: 35px;
- 
-}
-.names-B{
-  width: 100%;
-  height: 25px;
-  text-align: right;
-  padding-right: 10px;
-  box-sizing: border-box;
-  font-size: 12px;
-  cursor: pointer;
-  line-height: 25px;
-}
 </style>

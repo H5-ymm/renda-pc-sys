@@ -19,8 +19,8 @@ export const checkTeamSave = data => $post('/teamcms/save_status', data)  // 团
 export const lockTeamSave = data => $post('/teamcms/lock_team', data)  // 团队锁定
 
 export const lockUserSave = data => $post('/teamcms/lock_user', data)  // 成员锁定
-export const delUser= data => $post('/teamcms/del_user', data)  //删除团员
-export const getUserDetail= data => $post('/teamcms/detail_user', data) //获取团员信息
+export const delUser = data => $post('/teamcms/del_user', data)  //删除团员
+export const getUserDetail = data => $post('/teamcms/detail_user', data) //获取团员信息
 
-
+export const getTeamUserList = data => $post('/teamcms/getTeam_userList', data) //获取成员列表
 

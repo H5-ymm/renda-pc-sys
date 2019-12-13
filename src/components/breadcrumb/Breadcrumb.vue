@@ -15,13 +15,13 @@
 <script>
 export default {
   // props: ['breadcrumbs'],
-  data(){
+  data () {
     return {
       breadcrumbs: ['论坛列表']
     }
   },
   watch: {
-    $route(to, from) {
+    $route (to, from) {
       this.breadcrumbs = JSON.parse(sessionStorage.getItem('menus'))
       // console.log(to.path);
     }
@@ -48,26 +48,4 @@ export default {
     line-height: 36px;
   }
 }
-/* .breadcrumb-bre{
-  height: 36px;
-  box-sizing: border-box;
-  overflow: hidden;
-}
-.breadcrumb-bre-li{
-  line-height: 36px;
-}
-.breadcrumb .el-breadcrumb__separator {
-  position: absolute;
-  z-index: -22;
-}
-.breadcrumb .breadcrumb-bre-li .el-tag {
-  height: 36px;
-  border:none;
-  border-top: 1px solid #1890FF;
-  line-height: 36px;
-  border-radius: 0;
-  margin-right: 5px;
-  background: #DCEEFE;
-  color: #333333;
-} */
 </style>

@@ -1,14 +1,14 @@
 <template>
-  <div class="tables-box">
-   <div class="table-list company-list">
-    <el-tabs v-model="activeName" @tab-click="handleClick">
-      <el-tab-pane label="全部团队" name="all">
-        <teamTable :tableType="activeName"></teamTable>
-      </el-tab-pane>
-      <el-tab-pane label="成员账户" name="personal">
-        <teamTable :tableType="activeName"></teamTable>
-      </el-tab-pane>
-    </el-tabs>
+  <div class="tables-box team-list-box">
+    <div class="team-list">
+      <el-tabs v-model="activeName" @tab-click="handleClick">
+        <el-tab-pane label="全部团队" name="all">
+          <teamTable :tableType="activeName"></teamTable>
+        </el-tab-pane>
+        <el-tab-pane label="成员账户" name="personal">
+          <teamTable :tableType="activeName"></teamTable>
+        </el-tab-pane>
+      </el-tabs>
     </div>
   </div>
 </template>
@@ -27,7 +27,7 @@ export default {
   created () {
   },
   methods: {
-    handleClick(tab, event){
+    handleClick (tab, event) {
       console.log(tab, event);
     },
   }
