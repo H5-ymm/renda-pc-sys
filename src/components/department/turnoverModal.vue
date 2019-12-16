@@ -173,7 +173,7 @@ export default {
     departId (val) {
       if (val) {
         this.formMember.departId = Number(val)
-        this.getList(this.formMember)
+        // this.getList(this.formMember)
       }
     }
   },

@@ -1,10 +1,12 @@
 <template>
-  <el-row :gutter="20" class="team-info-row">
-    <el-col :span="6" v-for="(item,key) in userLabel" :key="key">
-      <el-card class="box-card" :class="key">
-        <p>{{item}}</p>
-        <p>{{userLabel1[key]}}</p>
-        <img src="../../assets/img/cardBg1.png" alt class="cardBg" v-if="key=='name'" />
+  <div>
+    <el-button type="text">发单</el-button>
+    <el-row :gutter="20" class="team-info-row">
+      <el-col :span="6" v-for="(item,key) in userLabel" :key="key">
+        <el-card class="box-card" :class="'name'+key">
+          <p>{{item}}</p>
+          <p>{{list[key-1]}}</p>
+          <!-- <img src="../../assets/img/cardBg1.png" alt class="cardBg" v-if="key=='name'" />
         <img src="../../assets/img/cardBg2.png" alt class="cardBg" v-if="key=='number'" />
         <img src="../../assets/img/cardBg3.png" alt class="cardBg" v-if="key=='total'&&!userType" />
         <img
@@ -19,55 +21,59 @@
           alt
           class="cardBg"
           v-if="key=='jobStatus'&&userType"
-        />
-      </el-card>
-    </el-col>
-  </el-row>
+          />-->
+        </el-card>
+      </el-col>
+    </el-row>
+  </div>
 </template>
 <script>
-import { getTeamInfo } from '../../api/team'
+import { getCount } from '../../api/orderTarking'
 export default {
   props: ['userType', 'userInfo'],
   data () {
     return {
       userLabel1: {
-        name: '天天向上',
-        number: '444',
-        total: '22',
-        jobStatus: '22'
-      }
+        1: '',
+        2: '',
+        3: '',
+        4: ''
+      },
+      list: []
     }
   },
   computed: {
     userLabel () {
       let obj = {}
-      if (this.userType) {
-        obj = {
-          name: '团队名称',
-          number: '团队成员',
-          total: '简历总数',
-          jobStatus: '已入职'
-        }
-      }
-      else {
-        obj = {
-          name: '团队名称',
-          number: '招聘部',
-          total: '简历总数',
-          jobStatus: '已入职'
-        }
+      obj = {
+        1: '发单总数',
+        2: '今日发单',
+        3: '待审核',
+        4: '招聘中'
       }
       return obj
     }
   },
   created () {
-    let uid = localStorage.getItem('uid')
-    getTeamInfo({ uid }).then(res => {
-      if (res && res.data) {
-        console.log(res)
-      }
-    })
+    this.getNumber()
   },
+  methods: {
+    getNumber () {
+      let type
+      for (let i = 1; i < 5; i++) {
+        if (i == 4) {
+          type = 'all'
+        }
+        else {
+          type = i
+        }
+        getCount({ type }).then(res => {
+          this.list.push(res.data)
+        })
+        console.log(this.list)
+      }
+    }
+  }
 }
 </script>
 <style lang="scss">
@@ -87,16 +93,16 @@ export default {
     &.el-card{
       color: #fff;
     }
-    &.name {
+    &.name1 {
       background:linear-gradient(150deg,#7F80FE,#729EFE);
     }
-    &.number {
+    &.name2 {
       background:linear-gradient(117deg,rgba(255,110,115,1),rgba(255,116,145,1));
     }
-    &.total {
+    &.name3 {
       background:linear-gradient(117deg,rgba(255,146,100,1),rgba(255,176,100,1));
     }
-    &.jobStatus {
+    &.name4 {
       background:linear-gradient(117deg,rgba(166,91,251,1),rgba(189,94,255,1));
     }
   }

@@ -128,7 +128,7 @@ export default {
   created () {
     let params = 'edu_type'
     this.getList(params)
-    this.getJobList()
+    // this.getJobList()
   },
   methods: {
     getList (filed) {

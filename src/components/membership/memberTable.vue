@@ -2,17 +2,13 @@
   <div class="member-table">
     <div class="action-btn x-flex-between">
       <div>
-        <el-button type="primary" icon="el-icon-plus" @click="addMember">添加</el-button>
-        <el-button>删除</el-button>
-        <el-button>锁定</el-button>
+        <el-button type="primary" @click="handleCheck(ids)">审核</el-button>
+        <el-button @click="handleDel(ids)">删除</el-button>
         <span class="select-text">
           已选择
           <el-button type="text">{{multipleSelection.length}}&nbsp;</el-button>项
         </span>
         <el-button type="text" @click="multipleSelection=[]">清空</el-button>
-      </div>
-      <div>
-        <el-button @click="dismissTeam()">解散团队</el-button>
       </div>
     </div>
     <div class="table">
@@ -23,34 +19,48 @@
         style="width: 100%"
         @selection-change="handleSelectionChange"
       >
-        <el-table-column label="序号" type="selection" align="center" width="60"></el-table-column>
-        <el-table-column label="姓名" align="center" width="150">
+        <el-table-column type="selection" align="center" width="60"></el-table-column>
+        <el-table-column label="编号" prop="id" align="center" width="60"></el-table-column>
+        <el-table-column label="职位/企业名称" align="center" width="150">
           <template slot-scope="props">
-            <el-button type="text" @click="handleEdit(props.row)">{{props.row.user_name}}</el-button>
+            <span>{{props.row.name}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="联系电话" prop="mobile" align="center" width="150"></el-table-column>
-        <el-table-column label="所属部门" prop="depart_name" align="center" width="150"></el-table-column>
-        <el-table-column label="等级" prop="grade_name" sortable align="center" width="150"></el-table-column>
-        <el-table-column label="直属上级" prop="grade_name" align="center" width="150"></el-table-column>
-        <el-table-column label="简历数量" prop="entry_num" align="center" width="150"></el-table-column>
-        <el-table-column label="入职人数" prop="entry_num" align="center" width="150"></el-table-column>
-        <el-table-column label="最近登录时间" align="center" width="260">
+        <el-table-column label="需求人数" prop="required_number" align="center" width="150"></el-table-column>
+        <el-table-column label="工作地址" align="center" width="150">
           <template slot-scope="props">
-            <span>{{ props.row.logout_time ? $moment(props.row.logout_time).format('YYYY-MM-DD HH:mm'): '--'}}</span>
+            <span>{{props.row.province}}{{props.row.city}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="状态" align="center" width="150">
+        <el-table-column label="薪资方式" prop="grade_name" align="center" width="100">
+          <template slot-scope="props">
+            <span>{{props.row.money_type==1?"月薪":props.row.money_type==2?'日薪':'时薪'}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="返利方式" prop="grade_name" align="center" width="120">
+          <template slot-scope="props">
+            <span>{{props.row.reward_type | rewardType}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="发布时间" prop="ctime" align="center" width="160"></el-table-column>
+        <el-table-column label="招聘状态" prop="entry_num" align="center" width="150">
+          <template slot-scope="props">
+            <div class="job_status">{{props.row.job_status==1?"招聘中":'已下架'}}</div>
+            <el-switch v-model="props.row.job_status==1" disabled></el-switch>
+          </template>
+        </el-table-column>
+        <el-table-column label="审核状态" align="center" width="150">
           <template slot-scope="props">
             <span
               class="status"
-              :class="{'active-status':props.row.status==1}"
-            >{{props.row.status==1?"正常":'锁定'}}</span>
+              :class="{'active-status1':props.row.status==1,'active-status':props.row.status==2,'active-status2':props.row.status==3}"
+            >{{props.row.status | statusType}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center" width="150">
+        <el-table-column label="操作" align="center" min-width="150">
           <template slot-scope="scope">
-            <el-button @click="handleEdit(scope.row)" type="text" size="small">编辑</el-button>
+            <el-button @click="handleCheck(scope.row)" type="text" size="small">审核</el-button>
+            <el-button @click="handleEdit(scope.row)" type="text" size="small">查看</el-button>
             <el-button @click="handleDel(scope.row)" type="text" size="small">删除</el-button>
           </template>
         </el-table-column>
@@ -59,7 +69,24 @@
   </div>
 </template>
 <script>
+import { rewardList, statusList } from '@/base/base'
 export default {
+  filters: {
+    rewardType (val) {
+      let obj = rewardList.find(item => {
+        return val == item.value
+      })
+      console.log(obj)
+      return obj ? obj.label : '--'
+    },
+    statusType (val) {
+      let obj = statusList.find(item => {
+        return val == item.value
+      })
+      console.log(obj)
+      return obj ? obj.label : '--'
+    }
+  },
   props: {
     tableData: {
       type: []
@@ -69,30 +96,42 @@ export default {
   data () {
     return {
       memberInfo: {},
+      rewardList,
       teamId: '',
-      multipleSelection: []
+      multipleSelection: [],
+      statusList
     }
   },
   methods: {
-    addMember () {
-      this.$emit('addMember')
-    },
     handleEdit (row) {
-      // this.memberInfo = row
-      // this.teamId = row.uid
-      this.$emit('handleEdit', row.uid)
+      this.$router.push({ path: 'orderTarkingCard', query: { id: row.id } })
+    },
+    handleCheck (row) {
+      if (!row) {
+        return this.$message.warning('选择数据')
+      }
+      this.$emit('handleCheck', row.uid)
     },
     handleSelectionChange (val) {
       this.multipleSelection = val;
-      this.$emit('handleSelectionChange', this.multipleSelection.length)
+      let arr = val.map(item => {
+        return item.id
+      })
+      this.ids = arr.join(',')
     },
     handleDel (row) {
-      // this.memberInfo = row
-      // this.teamId = row.uid
-      this.$emit('handleDel', row.uid)
-    },
-    dismissTeam () {
-      this.$emit('dismissTeam')
+      if (!row) {
+        return this.$message.warning('选择数据')
+      }
+      this.$confirm('你确定要删除吗?', '', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$emit('handleDel', row.id)
+      }).catch(() => {
+        console.log('取消')
+      })
     }
   }
 }
@@ -104,6 +143,9 @@ export default {
     padding: 10px 0;
     height: 76%;
   }
+  .job_status {
+    color: #333;
+  }
   .status {
     position: relative;
     margin-left: 10px;
@@ -111,6 +153,16 @@ export default {
       &::before{
        background: #71D875
      }
+    }
+    &.active-status1{
+      &::before{
+        background: #999;
+      }
+    }
+    &.active-status2 {
+      &::before{
+        background: #729EFE;
+      }
     }
     &::before{
       position: absolute;

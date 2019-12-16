@@ -1,5 +1,5 @@
 <template>
-  <div class="tables-box">
+  <div class="tables-box user-list">
     <memberCard :userType="userType"></memberCard>
     <div class="table-list">
       <memberQuery @onSubmit="onSubmit"></memberQuery>
@@ -7,7 +7,7 @@
         :total="total"
         :tableData="tableData"
         @handleEdit="handleEdit"
-        @addMember="addMember"
+        @handleCheck="handleCheck"
         @handleDel="handleDel"
         @handleSelectionChange="handleSelectionChange"
       ></memberTable>
@@ -22,12 +22,17 @@
         :total="total"
       ></el-pagination>
     </div>
-    <memberAdd :dialogTableVisible="visible" @submitForm="submitForm"></memberAdd>
     <memberInfo
       :dialogTableVisible="dialogTableVisible"
       @submitMember="submitMember"
       :userId="userId"
     ></memberInfo>
+    <confirmDialog
+      :dialogTableVisible="visible"
+      @submit="submit"
+      dialogType="check"
+      @handleClose="visible=false;ids='';dialogType=''"
+    ></confirmDialog>
   </div>
 </template>
 
@@ -37,8 +42,8 @@ import memberCard from './membership/memberCard'
 import memberQuery from './membership/memberQuery'
 import memberTable from './membership/memberTable'
 import memberInfo from './membership/memberInfo'
-import memberAdd from './membership/memberAdd'
-import { getTeamList, loginOutTeam, addTeamUser, updateTeamUser } from '../api/team'
+import confirmDialog from './common/confirmDialog'
+import { getFdJobList, delFdjob, checkFdjob } from '@/api/orderTarking'
 import memberInfoVue from './membership/memberInfo.vue';
 export default {
   components: {
@@ -46,7 +51,7 @@ export default {
     memberQuery,
     memberTable,
     memberInfo,
-    memberAdd
+    confirmDialog
   },
   data () {
     return {
@@ -80,7 +85,7 @@ export default {
       this.getList(this.formMember)
     },
     getList (params) {
-      getTeamList(params).then(res => {
+      getFdJobList(params).then(res => {
         const { data } = res
         this.tableData = data.data
         this.total = data.count
@@ -91,37 +96,33 @@ export default {
       this.userId = val
       console.log(this.userId)
     },
-    handleDel (uid) {
-      loginOutTeam({ uid }).then(res => {
-        this.$message.success('退出成功')
+    handleDel (ids) {
+      delFdjob({ ids }).then(res => {
+        this.$message.success('删除成功')
         this.getList(this.formMember)
       }).catch(error => {
         this.$message.error(error.status.remind)
-      })
-    },
-    submitMember (val) {
-      updateTeamUser(val).then(res => {
-        this.dialogTableVisible = false
-        this.getList(this.params)
       })
     },
     handleSelectionChange (val) {
       this.len = val
     },
-    addMember () {
+    submitMember (val) {
+
+    },
+    submit (val) {
+      checkFdjob(val).then(res => {
+        this.getList(this.formMember)
+      }).catch(error => {
+        this.$message.error(error.status.remind)
+      })
+    },
+    handleCheck () {
       this.visible = true
     },
     onSubmit (value) {
       let params = Object.assign(this.formMember, value)
       this.getList(params)
-    },
-    submitForm (val) {
-      this.visible = false
-      addTeamUser(val).then(res => {
-        this.getList(this.formMember)
-      }).catch(error => {
-        this.$message.error(error.status.remind)
-      })
     }
   }
 }
@@ -156,6 +157,11 @@ export default {
   width: 100%;
   overflow: hidden;
   margin-bottom: 60px;
+  &.user-list {
+    height: calc(100% - 60px);
+    overflow: auto;
+    overflow-x: hidden;
+  }
 }
 .team-info-row {
   margin: 20px 0;

@@ -119,6 +119,16 @@ export default {
               url: '/teamList'
             }
           ]
+        },
+        {
+          title: '发单管理',
+          icon: 'el-icon-collection-tag',
+          submenu: [
+            {
+              title: '发单列表',
+              url: '/Userlist'
+            }
+          ]
         }
       ],
       title: '',

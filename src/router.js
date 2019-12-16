@@ -22,7 +22,8 @@ import TeamList from './components/TeamList.vue'
 
 import baseSetting from './components/baseSetting.vue'
 import Setting from './components/Setting.vue'  //其他设置
-import Userlist from './components/Userlist.vue'  //全部用户
+import Userlist from './components/Userlist.vue'  // 发单管理
+import OrderTarkingCard from './components/OrderTarkingCard.vue'
 import Adduser from './components/Adduser.vue'  //添加用户
 
 import DetailCard from './components/commentCard/DetailCard.vue'
@@ -66,10 +67,18 @@ let routers = new Router({
             requiresAuth: 2
           }
         },
-        { //成员管理
+        { //发单管理
           path: '/userlist',
           name: 'Userlist',
           component: Userlist,
+          meta: {
+            requiresAuth: 2
+          }
+        },
+        { //发单管理
+          path: '/orderTarkingCard',
+          name: 'OrderTarkingCard',
+          component: OrderTarkingCard,
           meta: {
             requiresAuth: 2
           }
